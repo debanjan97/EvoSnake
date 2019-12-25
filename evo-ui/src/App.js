@@ -1,14 +1,27 @@
 import React from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage/LandingPage';
-import theme from './core-utils/themes'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import theme from './core-utils/themes';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom'
+import GameBoard from './components/GameBoard/GameBoard'
+import BotScreen from './components/BotScreen/BotScreen';
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <div className="App">
-        <LandingPage />
+        <Router>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/play" component={GameBoard} />
+            <Route path="/bot" component={BotScreen} />
+          </Switch>
+        </Router>
       </div>
     </MuiThemeProvider>
   );
