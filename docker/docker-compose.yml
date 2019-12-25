@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  evo-ui:
+    build: ./evo-ui
+    volumes:
+      - ${EVOSNAKE_HOME_LOCAL}/EvoSnake:/root/EvoSnake
+    ports:
+      - '4200:3000'
