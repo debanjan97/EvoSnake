@@ -8,7 +8,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-import GameBoard from './components/GameBoard/GameBoard'
+import GameScreen from './components/GameScreen/GameScreen'
 import BotScreen from './components/BotScreen/BotScreen';
 
 function App() {
@@ -18,7 +18,9 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/play" component={GameBoard} />
+            <Route path="/play">
+                <GameScreen playerName="Eyepatch"/>
+              </Route>
             <Route path="/bot" component={BotScreen} />
           </Switch>
         </Router>
