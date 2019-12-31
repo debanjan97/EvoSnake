@@ -27,7 +27,7 @@ const GameBoard = () => {
   const classes = useStyles();
 
   const [food, setFood] = useState(getRandomCoordinates())
-  const [speed, setSpeed] = useState(10000)
+  const [speed, setSpeed] = useState(1000)
   const [direction, setDirection] = useState('RIGHT')
   const [snakeBod, setSnakeBod] = useState([
     [10, 10],
@@ -60,7 +60,7 @@ const GameBoard = () => {
     alert("Game Over")
   }
 
-  function onKeyDown(e){
+  function onKeyDown(e) {
     e = e || window.event;
     switch (e.keyCode) {
       case 38:
@@ -113,13 +113,12 @@ const GameBoard = () => {
 
   }
 
-  const mounted = useRef();
   useEffect(() => {
-    setInterval(moveSnake, speed);
+    setTimeout(moveSnake, speed);
     checkIfOutOfBorder();
     checkIfCollapsed();
     checkIfEat();
-  })
+  }, [snakeBod])
 
   return (<CardContent><div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
     <Snake snakeBod={snakeBod} />

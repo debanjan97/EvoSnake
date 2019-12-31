@@ -6,4 +6,4 @@ services:
     volumes:
       - ${EVOSNAKE_HOME_LOCAL}/EvoSnake:/root/EvoSnake
     ports:
-      - '4200:3000'
+      - '4201:3000'
