@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 function GameScreen(props) {
     const classes = useStyles()
-    const [score, setScore] = useState(0)
+    const [score, setScore] = useState(3)
     const handleScore = score => {
         setScore(score)
     }
