@@ -74,15 +74,19 @@ const GameBoard = (props) => {
     e = e || window.event;
     switch (e.keyCode) {
       case 38:
+       if(direction != 'DOWN') 
         setDirection('UP');
         break;
       case 40:
+       if(direction != 'UP') 
         setDirection('DOWN');
         break;
       case 37:
+       if(direction != 'RIGHT') 
         setDirection('LEFT');
         break;
       case 39:
+       if(direction != 'LEFT') 
         setDirection('RIGHT');
         break;
     }
