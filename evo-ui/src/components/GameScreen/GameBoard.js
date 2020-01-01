@@ -30,9 +30,12 @@ const GameBoard = (props) => {
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
   const [snakeBod, setSnakeBod] = useState([
-    [2, 10],
-    [4, 10],
-    [6, 10],
+    [10, 10],
+    [12, 10],
+    [14, 10],
+    [16, 10],
+    [18, 10],
+    [20, 10]
   ])
 
   const moveSnake = () => {
@@ -64,7 +67,12 @@ const GameBoard = (props) => {
   }
 
   const onGameOver = () => {
-    alert("Game Over")
+      if (window.confirm("Game Over")) {
+        window.location.reload();
+      }
+      else{
+        window.location.replace("/");
+      }
   }
 
   function onKeyDown(e) {
