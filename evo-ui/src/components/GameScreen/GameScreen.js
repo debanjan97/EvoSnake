@@ -20,7 +20,10 @@ const useStyles = makeStyles(theme => ({
 
 function GameScreen(props) {
     const classes = useStyles()
-    const [score, setscore] = useState(0)
+    const [score, setScore] = useState(0)
+    const handleScore = score => {
+        setScore(score)
+    }
     return (<React.Fragment>
         <Card className={classes.board}>
             <Grid
@@ -39,7 +42,7 @@ function GameScreen(props) {
                     Score: {score}
                 </Grid>
             </Grid>
-            <GameBoard/>
+            <GameBoard setScore={handleScore}/>
         </Card>
     </React.Fragment>)
 }

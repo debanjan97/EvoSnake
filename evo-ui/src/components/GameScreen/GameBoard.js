@@ -23,7 +23,7 @@ const getRandomCoordinates = () => {
   return [x, y]
 }
 
-const GameBoard = () => {
+const GameBoard = (props) => {
   const classes = useStyles();
 
   const [food, setFood] = useState(getRandomCoordinates())
@@ -58,6 +58,10 @@ const GameBoard = () => {
     bod.push(head)
     if(!checkIfEat(head)) {
       bod.shift()
+    }
+    else {
+      // if food is there, update the score
+      props.setScore(bod.length)
     }
     setSnakeBod(bod)
   }
