@@ -27,11 +27,15 @@ const GameBoard = () => {
   const classes = useStyles();
 
   const [food, setFood] = useState(getRandomCoordinates())
-  const [speed, setSpeed] = useState(1000)
+  const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
   const [snakeBod, setSnakeBod] = useState([
     [10, 10],
-    [12, 10]
+    [12, 10],
+    [14, 10],
+    [16, 10],
+    [18, 10],
+    [20, 10]
   ])
 
   const moveSnake = () => {
@@ -52,7 +56,9 @@ const GameBoard = () => {
         break;
     }
     bod.push(head)
-    bod.shift()
+    if(!checkIfEat(head)) {
+      bod.shift()
+    }
     setSnakeBod(bod)
   }
 
@@ -96,29 +102,31 @@ const GameBoard = () => {
     })
   }
 
-  const checkIfEat = () => {
-    let head = snakeBod[snakeBod.length - 1];
+  const checkIfEat = (head) => {
+    // takes head as input, checks for food condition
     if (head[0] == food[0] && head[1] == food[1]) {
       setFood(getRandomCoordinates())
-      enlargeSnake();
       increaseSpeed();
+      return true
     }
-  }
-
-  const enlargeSnake = () => {
-
+    return false
   }
 
   const increaseSpeed = () => {
-
+    if (speed > 10) {
+      setSpeed(speed - 2)
+    }
   }
 
-  useEffect(() => {
-    setTimeout(moveSnake, speed);
+  const playGame = () => {
+    moveSnake();
     checkIfOutOfBorder();
     checkIfCollapsed();
-    checkIfEat();
-  }, [snakeBod])
+  }
+  useEffect(() => {
+    document.getElementById("evo-board").focus()
+    setTimeout(playGame, speed);
+  },[snakeBod])
 
   return (<CardContent><div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
     <Snake snakeBod={snakeBod} />
