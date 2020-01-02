@@ -30,12 +30,9 @@ const GameBoard = (props) => {
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
   const [snakeBod, setSnakeBod] = useState([
-    [10, 10],
-    [12, 10],
-    [14, 10],
-    [16, 10],
-    [18, 10],
-    [20, 10]
+    [0, 10],
+    [2, 10],
+    [4, 10]
   ])
 
   const moveSnake = () => {
