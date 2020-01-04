@@ -16,3 +16,13 @@ services:
     ports:
       - '50000:6000'
     command: bash -c "python3 /root/EvoSnake/evo-server/server/evoserver.py"
+  
+  postgres:
+    build: ./postgres
+    volumes:
+      - ${NFS_PATH}/evosnake:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD ="postgres"
+      - POSTGRES_USER = "postgres"
+    ports:
+      - '5432:5432'
