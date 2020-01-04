@@ -7,3 +7,12 @@ services:
       - ${EVOSNAKE_HOME_LOCAL}/EvoSnake:/root/EvoSnake
     ports:
       - '4201:3000'
+    command: bash -c "cd /root/EvoSnake/evo-ui && npm install && npm start"
+  
+  evo-server:
+    build: ./evo-server
+    volumes:
+      - ${EVOSNAKE_HOME_LOCAL}/EvoSnake/evo-server:/root/EvoSnake/evo-server
+    ports:
+      - '50000:6000'
+    command: bash -c "python3 /root/EvoSnake/evo-server/server/evoserver.py"
