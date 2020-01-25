@@ -11,10 +11,13 @@ services:
   
   evo-server:
     build: ./evo-server
+    restart: always
     volumes:
       - ${EVOSNAKE_HOME_LOCAL}/EvoSnake/evo-server:/root/EvoSnake/evo-server
     ports:
       - '50000:6000'
+    environment:
+      - PYTHONPATH = "/root/EvoSnake/evo-server"
     command: bash -c "python3 /root/EvoSnake/evo-server/server/evoserver.py"
   
   postgres:
