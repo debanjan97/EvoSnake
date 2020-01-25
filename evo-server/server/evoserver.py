@@ -12,6 +12,7 @@ from core.players import *
 
 db.init_app(app)
 
+
 @app.route('/add/<object>', methods=['POST'])
 def hello_world(object):
     request_object = request.get_json(silent=True)
@@ -25,6 +26,7 @@ def hello_world(object):
         new_snake = Snake(generate_uuid(), request_object['player'], request_object['score'], request_object['played_on'])
         db.session.add(new_snake)
         db.session.commit()
+        return Response(response="Successfully Added", status=200)
 
     elif object == "player":
         if not request_object.get('username'):
@@ -32,6 +34,7 @@ def hello_world(object):
         new_player = Player(id=generate_uuid(), username=request_object['username'])
         db.session.add(new_player)
         db.session.commit()
+        return Response(response="Successfully Added", status=200)
 
     else:
         return Response(reponse="Invalid request", status=400)

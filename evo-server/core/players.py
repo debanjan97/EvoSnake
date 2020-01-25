@@ -20,7 +20,7 @@ class Player(db.Model):
 class Snake(db.Model):
     __tablename__ = 'snakes'
     id = db.Column(db.String(), primary_key=True)
-    player = db.Column(db.Integer(), ForeignKey('players.id'))
+    player = db.Column(db.String(), ForeignKey('players.id'))
     score = db.Column(db.Integer())
     played_on = db.Column(db.TIMESTAMP)
 
