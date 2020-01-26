@@ -3,6 +3,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Snake from "../GameElements/Snake";
 import Food from "../GameElements/Food";
+import PauseDialog from "../Dialogs/PauseDialog";
 
 const useStyles = makeStyles(theme => ({
   canvas: {
@@ -29,6 +30,7 @@ const GameBoard = (props) => {
   const [food, setFood] = useState(getRandomCoordinates())
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
+  const [isPaused, setIsPaused] = useState(false);
   const [snakeBod, setSnakeBod] = useState([
     [0, 10],
     [2, 10],
@@ -53,7 +55,7 @@ const GameBoard = (props) => {
         break;
     }
     bod.push(head)
-    if(!checkIfEat(head)) {
+    if (!checkIfEat(head)) {
       bod.shift()
     }
     else {
@@ -64,32 +66,35 @@ const GameBoard = (props) => {
   }
 
   const onGameOver = () => {
-      if (window.confirm("Game Over")) {
-        window.location.reload();
-      }
-      else{
-        window.location.replace("/");
-      }
+    if (window.confirm("Game Over")) {
+      window.location.reload();
+    }
+    else {
+      window.location.replace("/");
+    }
   }
 
   function onKeyDown(e) {
     e = e || window.event;
     switch (e.keyCode) {
       case 38:
-       if(direction != 'DOWN') 
-        setDirection('UP');
+        if (direction != 'DOWN')
+          setDirection('UP');
         break;
       case 40:
-       if(direction != 'UP') 
-        setDirection('DOWN');
+        if (direction != 'UP')
+          setDirection('DOWN');
         break;
       case 37:
-       if(direction != 'RIGHT') 
-        setDirection('LEFT');
+        if (direction != 'RIGHT')
+          setDirection('LEFT');
         break;
       case 39:
-       if(direction != 'LEFT') 
-        setDirection('RIGHT');
+        if (direction != 'LEFT')
+          setDirection('RIGHT');
+        break;
+      case 32:
+        setIsPaused(!isPaused);
         break;
     }
   }
@@ -99,6 +104,14 @@ const GameBoard = (props) => {
     if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
       onGameOver();
     }
+  }
+
+  const resumeGame = () => {
+    setIsPaused(false);
+  }
+
+  const replayGame = () => {
+    window.location.reload();
   }
 
   const checkIfCollapsed = () => {
@@ -133,16 +146,26 @@ const GameBoard = (props) => {
     checkIfOutOfBorder();
     checkIfCollapsed();
   }
+
   useEffect(() => {
     document.getElementById("evo-board").focus()
-    setTimeout(playGame, speed);
-  },[snakeBod])
+    if (!isPaused) {
+      setTimeout(playGame, speed);
+    }
+  }, [snakeBod, isPaused])
 
-  return (<CardContent><div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
-    <Snake snakeBod={snakeBod} />
-    <Food food={food} />
-  </div>
-  </CardContent>)
+  return (
+    <CardContent>
+      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
+        <Snake snakeBod={snakeBod} />
+        <Food food={food} />
+        <PauseDialog
+          isPaused={isPaused}
+          replayGame={replayGame}
+          resumeGame={resumeGame}
+        />
+      </div>
+    </CardContent>)
 }
 
 export default GameBoard;
