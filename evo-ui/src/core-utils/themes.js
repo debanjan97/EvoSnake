@@ -9,6 +9,7 @@ const theme = createMuiTheme({
     status: {
       danger: 'orange',
     },
+    spacing: 4,
   });
 
   export default theme;

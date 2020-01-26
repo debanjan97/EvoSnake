@@ -147,6 +147,23 @@ const GameBoard = (props) => {
     checkIfCollapsed();
   }
 
+function useOutsideAlerter(ref) {
+  function handleClickOutside (event) {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setIsPaused(true)
+    }
+  }
+
+  useEffect(()=> {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  })
+
+}
+  
+
   useEffect(() => {
     document.getElementById("evo-board").focus()
     if (!isPaused) {
@@ -154,9 +171,13 @@ const GameBoard = (props) => {
     }
   }, [snakeBod, isPaused])
 
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
+
   return (
+    
     <CardContent>
-      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
+      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board" ref={wrapperRef}>
         <Snake snakeBod={snakeBod} />
         <Food food={food} />
         <PauseDialog

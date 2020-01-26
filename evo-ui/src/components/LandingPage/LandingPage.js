@@ -8,20 +8,13 @@ import {
 } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-    snake: {
-        height: "40vw",
-        width: "auto",
-        padding: '0 30px',
-    },
-    root: {
-    },
     grid: {
         padding: theme.spacing(2),
         textAlign: 'center',
         color: theme.palette.text.secondary
     },
     icons: {
-        marginLeft: "8px"
+        marginLeft: theme.spacing(2)
     },
     buttons: {
         border: "3px solid black",
@@ -34,13 +27,16 @@ const useStyles = makeStyles(theme => ({
 
 function LandingPage() {
     const classes = useStyles();
-    return (<div className="landing-page">
-        <img src={snake} className={classes.snake}></img>
+    return (<Grid className="landing-page" container alignItems="center" justify="center" alignContent="center">
+        <Grid item xs={5}>
+        <img src={snake}></img>
+        </Grid>
         <Grid
             container
             direction="row"
             justify="center"
             alignItems="center"
+            item
         >
             <Grid item xs={3}>
                 <Link to="/play" className={classes.link}>
@@ -57,6 +53,6 @@ function LandingPage() {
                 </Link>
             </Grid>
         </Grid>
-    </div>)
+    </Grid>)
 }
 export default LandingPage;
