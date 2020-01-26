@@ -28,7 +28,7 @@ const PauseDialog = (props) => {
         <Dialog
             open={isPaused}
         >
-            <DialogTitle id="alert-dialog-title">{"Game paused.Do you want to resume?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{"Game paused. Do you want to resume?"}</DialogTitle>
             <DialogActions>
                 <Button onClick={replayGame} color="primary">
                     Replay
