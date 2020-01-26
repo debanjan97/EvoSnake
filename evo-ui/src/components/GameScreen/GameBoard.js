@@ -26,7 +26,6 @@ const getRandomCoordinates = () => {
 
 const GameBoard = (props) => {
   const classes = useStyles();
-
   const [food, setFood] = useState(getRandomCoordinates())
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
@@ -107,6 +106,7 @@ const GameBoard = (props) => {
   }
 
   const resumeGame = () => {
+    props.resetClick();
     setIsPaused(false);
   }
 
@@ -147,20 +147,24 @@ const GameBoard = (props) => {
     checkIfCollapsed();
   }
 
+  const handleClick = (event) => {
+    event.stopPropagation();
+  }
+
   useEffect(() => {
     document.getElementById("evo-board").focus()
-    if (!isPaused) {
+    if (!isPaused && !props.isClicked) {
       setTimeout(playGame, speed);
     }
-  }, [snakeBod, isPaused])
+  }, [snakeBod, isPaused, props.isClicked])
 
   return (
     <CardContent>
-      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
+      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board" onClick={handleClick}>
         <Snake snakeBod={snakeBod} />
         <Food food={food} />
         <PauseDialog
-          isPaused={isPaused}
+          isPaused={isPaused || props.isClicked}
           replayGame={replayGame}
           resumeGame={resumeGame}
         />
