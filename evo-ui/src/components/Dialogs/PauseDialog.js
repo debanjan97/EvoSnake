@@ -6,6 +6,11 @@ import {
     DialogTitle
 } from '@material-ui/core';
 import propTypes from 'prop-types';
+import {
+    REPLAY,
+    RESUME,
+    GAME_PAUSED_TITLE
+} from '../Constants';
 
 const Types = {
     isPaused: propTypes.bool,
@@ -28,13 +33,13 @@ const PauseDialog = (props) => {
         <Dialog
             open={isPaused}
         >
-            <DialogTitle id="alert-dialog-title">{"Game paused.Do you want to resume?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{GAME_PAUSED_TITLE}</DialogTitle>
             <DialogActions>
                 <Button onClick={replayGame} color="primary">
-                    Replay
+                    {REPLAY}
                 </Button>
                 <Button onClick={resumeGame} color="primary" autoFocus>
-                    Resume
+                    {RESUME}
                 </Button>
             </DialogActions>
         </Dialog>
