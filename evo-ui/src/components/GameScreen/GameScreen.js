@@ -42,7 +42,7 @@ function GameScreen(props) {
                     Score: {score}
                 </Grid>
             </Grid>
-            <GameBoard setScore={handleScore}/>
+            <GameBoard setScore={handleScore} score={score}/>
         </Card>
     </React.Fragment>)
 }
