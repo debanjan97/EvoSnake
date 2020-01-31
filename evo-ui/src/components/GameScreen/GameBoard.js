@@ -26,6 +26,7 @@ const getRandomCoordinates = () => {
 
 const GameBoard = (props) => {
   const classes = useStyles();
+
   const [food, setFood] = useState(getRandomCoordinates())
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
@@ -65,12 +66,7 @@ const GameBoard = (props) => {
   }
 
   const onGameOver = () => {
-    if (window.confirm("Game Over")) {
-      window.location.reload();
-    }
-    else {
-      window.location.replace("/");
-    }
+    setIsEnded(true);
   }
 
   function onKeyDown(e) {
@@ -114,6 +110,10 @@ const GameBoard = (props) => {
     window.location.reload();
   }
 
+  const goToHome = () => {
+    window.location.replace('/');
+  }
+
   const checkIfCollapsed = () => {
     let bod = [...snakeBod]
     let head = bod[bod.length - 1]
@@ -153,20 +153,25 @@ const GameBoard = (props) => {
 
   useEffect(() => {
     document.getElementById("evo-board").focus()
-    if (!isPaused && !props.isClicked) {
+    if (!isPaused && !props.isClicked && !isEnded) {
       setTimeout(playGame, speed);
     }
-  }, [snakeBod, isPaused, props.isClicked])
+  }, [snakeBod, isPaused, props.isClicked, isEnded])
 
   return (
     <CardContent>
-      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board" onClick={handleClick}>
+      <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
         <Snake snakeBod={snakeBod} />
         <Food food={food} />
         <PauseDialog
-          isPaused={isPaused || props.isClicked}
+          isPaused={isPaused}
           replayGame={replayGame}
           resumeGame={resumeGame}
+        />
+        <GameEndedDialog
+          isEnded={isEnded}
+          replayGame={replayGame}
+          goToHome={goToHome}
         />
       </div>
     </CardContent>)
