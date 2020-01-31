@@ -21,10 +21,10 @@ def hello_world(object):
         return Response(response="Type not supported", status=400)
 
     if object == "snake":
-        for key in ['player', 'score', 'played_on']:
+        for key in ['player', 'score']:
             if not request_object.get(key):
                 return Response(response=f"{key} is missing in request body", status=400)
-        new_snake = Snake(generate_uuid(), request_object['player'], request_object['score'], request_object['played_on'])
+        new_snake = Snake(id=generate_uuid(), player=request_object['player'], score=request_object['score'])
         db.session.add(new_snake)
         db.session.commit()
         return Response(response="Successfully Added", status=200)
@@ -40,12 +40,21 @@ def hello_world(object):
     else:
         return Response(reponse="Invalid request", status=400)
 
+
 @app.route('/get/player/<username>', methods=['get'])
 def get_player_by_username(username):
     requested_player = Player.query.filter_by(username=username).first()
     if requested_player is None:
         return Response(response="No such player exists", status=404)
-    return Response(response=requested_player.describe_player(), status=200)
+    return Response(response=json.dumps(requested_player.describe_player()), status=200)
+
+
+@app.route('/get/snake/<id>', methods=['get'])
+def get_snakes_by_snakes(id):
+    requested_snake = Snake.query.filter_by(id=id).first()
+    if requested_snake is None:
+        return Response(response="No such snake exist", status=404)
+    return Response(response=json.dumps(requested_snake.describe_snake()), status=200)
 
 
 app.run(debug=True, host='0.0.0.0', port='6000')
