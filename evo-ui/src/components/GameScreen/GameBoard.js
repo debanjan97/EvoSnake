@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snake from "../GameElements/Snake";
 import Food from "../GameElements/Food";
 import PauseDialog from "../Dialogs/PauseDialog";
-import GameEndedDialog from "../Dialogs/GameEndedDialog";
 
 const useStyles = makeStyles(theme => ({
   canvas: {
@@ -32,7 +31,6 @@ const GameBoard = (props) => {
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
   const [isPaused, setIsPaused] = useState(false);
-  const [isEnded, setIsEnded] = useState(false);
   const [snakeBod, setSnakeBod] = useState([
     [0, 10],
     [2, 10],
@@ -104,6 +102,7 @@ const GameBoard = (props) => {
   }
 
   const resumeGame = () => {
+    props.resetClick();
     setIsPaused(false);
   }
 
@@ -148,12 +147,16 @@ const GameBoard = (props) => {
     checkIfCollapsed();
   }
 
+  const handleClick = (event) => {
+    event.stopPropagation();
+  }
+
   useEffect(() => {
     document.getElementById("evo-board").focus()
-    if (!isPaused && !isEnded) {
+    if (!isPaused && !props.isClicked && !isEnded) {
       setTimeout(playGame, speed);
     }
-  }, [snakeBod, isPaused, isEnded])
+  }, [snakeBod, isPaused, props.isClicked, isEnded])
 
   return (
     <CardContent>
