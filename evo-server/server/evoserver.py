@@ -2,6 +2,7 @@ from flask import Flask, request, Response
 from  core.configmap import DB_URL
 from flask_sqlalchemy import SQLAlchemy
 from core.utils import generate_uuid
+import json
 
 app = Flask(__name__)
 
@@ -38,6 +39,13 @@ def hello_world(object):
 
     else:
         return Response(reponse="Invalid request", status=400)
+
+@app.route('/get/player/<username>', methods=['get'])
+def get_player_by_username(username):
+    requested_player = Player.query.filter_by(username=username).first()
+    if requested_player is None:
+        return Response(response="No such player exists", status=404)
+    return Response(response=requested_player.describe_player(), status=200)
 
 
 app.run(debug=True, host='0.0.0.0', port='6000')

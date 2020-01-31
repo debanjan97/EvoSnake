@@ -16,6 +16,9 @@ class Player(db.Model):
         self.username = username
         self.last_played = last_played or datetime.now()
 
+    def describe_player(self):
+        return dict(id=self.id, username=self.username, last_played=self.last_played)
+
 
 class Snake(db.Model):
     __tablename__ = 'snakes'
