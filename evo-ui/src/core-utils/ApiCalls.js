@@ -25,7 +25,6 @@ export const fetchMostRecentPlayer = () => {
     // if player is cached, no need to make a server call
     let cachedPlayer = localStorage.getItem('stored_player_ign')
     if(!cachedPlayer) {
-        console.log("api called")
         return axios.get('http://localhost:50000/get_previous_player').then(response => {
             if(response.status != 200) {
                 //failure
