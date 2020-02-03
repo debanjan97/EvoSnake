@@ -36,13 +36,13 @@ function GameScreen(props) {
                 }}
             >
                 <Grid item xs={3} className={classes.scorecard} style={{ marginRight: "2px" }}>
-                    Player Name: {props.playerName || "Player 1"}
+                    Player Name: {props.username}
                 </Grid>
                 <Grid item xs={3} className={classes.scorecard} style={{ marginLeft: "2px" }}>
                     Score: {score}
                 </Grid>
             </Grid>
-            <GameBoard setScore={handleScore} score={score}/>
+            <GameBoard setScore={handleScore} score={score} username={props.username}/>
         </Card>
     </React.Fragment>)
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Dialog,
     Button,
@@ -13,6 +13,7 @@ import {
     REPLAY,
     HOME
 } from '../Constants';
+import {savePlayer, saveSnake} from "../../core-utils/ApiCalls"
 
 const propTypes = {
 };
@@ -25,8 +26,20 @@ const GameEndedDialog = (props) => {
     const {
         isEnded,
         replayGame,
-        goToHome
+        goToHome,
+        score,
+        username
     } = props;
+
+    const [newUsername, setNewUsername] = useState(null)
+
+    const submitPlayer = () => {
+        savePlayer(newUsername || username).then(()=>{
+            saveSnake(username, score).then(() => {
+                goToHome()
+            })
+        })
+    }
 
     return (
         <Dialog open={isEnded} fullWidth={"md"}>
@@ -35,14 +48,15 @@ const GameEndedDialog = (props) => {
                 <Box display="flex" flexDirection="row">
                     <TextField
                         label="Player Name"
-                        defaultValue={"Eyepatch" || "Default Value"}
+                        defaultValue={props.username}
                         helperText="Enter your name"
                         variant="outlined"
+                        onChange={event => setNewUsername(event.target.value)}
                         fullWidth
                     />
                     <TextField
                         label="Score"
-                        defaultValue={props.score || 100}
+                        defaultValue={score}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -53,7 +67,7 @@ const GameEndedDialog = (props) => {
                     <Button onClick={replayGame} color="primary" autoFocus>
                         {REPLAY}
                     </Button>
-                    <Button onClick={goToHome} color="primary">
+                    <Button onClick={submitPlayer} color="primary">
                         {HOME}
                     </Button>
                 </DialogActions>

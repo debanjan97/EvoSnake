@@ -37,7 +37,10 @@ class Snake(db.Model):
 
     def __init__(self, id, player, score, played_on=None):
         self.id = id
-        self.player = player
+        player = Player.query.filter_by(username=player).first()
+        if player is None:
+            raise SnakeException("No player found for this snake")
+        self.player = player.id
         self.score = score
         self.played_on = played_on or datetime.now()
 

@@ -5,7 +5,6 @@ import Snake from "../GameElements/Snake";
 import Food from "../GameElements/Food";
 import PauseDialog from "../Dialogs/PauseDialog";
 import GameEndedDialog from "../Dialogs/GameEndedDialog";
-
 const useStyles = makeStyles(theme => ({
   canvas: {
     height: "50vh",
@@ -170,6 +169,7 @@ const GameBoard = (props) => {
           replayGame={replayGame}
           goToHome={goToHome}
           score={props.score}
+          username={props.username}
         />
       </div>
     </CardContent>)

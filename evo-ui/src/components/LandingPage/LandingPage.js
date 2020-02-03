@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import snake from "../../assets/images/flat_snake.svg"
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, CircularProgress } from '@material-ui/core';
 import { PlayCircleOutline, AndroidOutlined } from '@material-ui/icons';
 import {
     Link
 } from "react-router-dom";
+import {fetchMostRecentPlayer} from '../../core-utils/ApiCalls'
+import {WELCOME_MESSAGE} from '../Constants'
 
 const useStyles = makeStyles(theme => ({
     snake: {
@@ -32,10 +34,35 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function LandingPage() {
+function LandingPage(props) {
     const classes = useStyles();
+
+    let {username, setUsername} = props
+
+    useEffect(() => {
+        fetchMostRecentPlayer().then(player => {
+            setTimeout(()=>{
+                setUsername(player.username)
+            }, 1000)
+        })
+    }, [username])
     return (<div className="landing-page">
-        <img src={snake} className={classes.snake}></img>
+        <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+        >
+            <img src={snake} className={classes.snake}></img>
+            <div style={{
+                position: "absolute",
+                bottom: '300px',
+                fontSize: '24px',
+                fontWeight: '100'
+            }}>
+                {username && `${WELCOME_MESSAGE} ${username} !!` || <CircularProgress color="black"/>}
+            </div>
+        </Grid>
         <Grid
             container
             direction="row"
@@ -53,7 +80,7 @@ function LandingPage() {
                 <Link to="/bot" className={classes.link}>
                     <Button variant="outlined" className={classes.buttons} size="large" endIcon={<AndroidOutlined className={classes.icons} />}>
                         Bot
-                        </Button>
+                    </Button>
                 </Link>
             </Grid>
         </Grid>

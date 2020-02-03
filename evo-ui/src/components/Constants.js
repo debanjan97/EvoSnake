@@ -7,3 +7,5 @@ export const REPLAY = "Replay";
 export const HOME = "Home";
 
 export const RESUME = "Resume";
+
+export const WELCOME_MESSAGE = "Welcome Back"
