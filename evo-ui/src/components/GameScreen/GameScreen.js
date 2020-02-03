@@ -21,11 +21,18 @@ const useStyles = makeStyles(theme => ({
 function GameScreen(props) {
     const classes = useStyles()
     const [score, setScore] = useState(3)
+    const [isClickedOutside, setIsClickedOutside] = useState(false)
     const handleScore = score => {
         setScore(score)
     }
+    const handleClick = () => {
+        setIsClickedOutside(true)
+    }
+    const resetClick = () => {
+        setIsClickedOutside(false)
+    }
     return (<React.Fragment>
-        <Card className={classes.board}>
+        <Card className={classes.board} onClick={handleClick}>
             <Grid
                 container
                 direction="row"
@@ -42,7 +49,7 @@ function GameScreen(props) {
                     Score: {score}
                 </Grid>
             </Grid>
-            <GameBoard setScore={handleScore} score={score} username={props.username}/>
+            <GameBoard setScore={handleScore} isClicked={isClickedOutside} resetClick={resetClick} score={score} username={props.username}/>
         </Card>
     </React.Fragment>)
 }

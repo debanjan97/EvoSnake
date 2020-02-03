@@ -103,6 +103,7 @@ const GameBoard = (props) => {
   }
 
   const resumeGame = () => {
+    props.resetClick();
     setIsPaused(false);
   }
 
@@ -147,12 +148,16 @@ const GameBoard = (props) => {
     checkIfCollapsed();
   }
 
+  const handleClick = (event) => {
+    event.stopPropagation();
+  }
+
   useEffect(() => {
     document.getElementById("evo-board").focus()
-    if (!isPaused && !isEnded) {
+    if (!isPaused && !props.isClicked && !isEnded) {
       setTimeout(playGame, speed);
     }
-  }, [snakeBod, isPaused, isEnded])
+  }, [snakeBod, isPaused, props.isClicked, isEnded])
 
   return (
     <CardContent>
