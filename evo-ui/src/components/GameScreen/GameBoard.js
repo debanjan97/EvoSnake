@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snake from "../GameElements/Snake";
 import Food from "../GameElements/Food";
 import PauseDialog from "../Dialogs/PauseDialog";
-
+import GameEndedDialog from "../Dialogs/GameEndedDialog";
 const useStyles = makeStyles(theme => ({
   canvas: {
     height: "50vh",
@@ -31,6 +31,7 @@ const GameBoard = (props) => {
   const [speed, setSpeed] = useState(100)
   const [direction, setDirection] = useState('RIGHT')
   const [isPaused, setIsPaused] = useState(false);
+  const [isEnded, setIsEnded] = useState(false);
   const [snakeBod, setSnakeBod] = useState([
     [0, 10],
     [2, 10],
@@ -172,6 +173,8 @@ const GameBoard = (props) => {
           isEnded={isEnded}
           replayGame={replayGame}
           goToHome={goToHome}
+          score={props.score}
+          username={props.username}
         />
       </div>
     </CardContent>)

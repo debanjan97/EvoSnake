@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Dialog,
     Button,
     DialogActions,
-    DialogTitle
+    DialogTitle,
+    TextField,
+    Box,
+    DialogContent
 } from '@material-ui/core';
 import {
     GAME_ENDED_TITLE,
     REPLAY,
     HOME
 } from '../Constants';
+import {savePlayer, saveSnake} from "../../core-utils/ApiCalls"
 
 const propTypes = {
 };
@@ -22,20 +26,52 @@ const GameEndedDialog = (props) => {
     const {
         isEnded,
         replayGame,
-        goToHome
+        goToHome,
+        score,
+        username
     } = props;
 
+    const [newUsername, setNewUsername] = useState(null)
+
+    const submitPlayer = () => {
+        savePlayer(newUsername || username).then(()=>{
+            saveSnake(username, score).then(() => {
+                goToHome()
+            })
+        })
+    }
+
     return (
-        <Dialog open={isEnded}>
+        <Dialog open={isEnded} fullWidth={"md"}>
             <DialogTitle>{GAME_ENDED_TITLE}</DialogTitle>
-            <DialogActions>
-                <Button onClick={replayGame} color="primary" autoFocus>
-                    {REPLAY}
-                </Button>
-                <Button onClick={goToHome} color="primary">
-                    {HOME}
-                </Button>
-            </DialogActions>
+            <DialogContent>
+                <Box display="flex" flexDirection="row">
+                    <TextField
+                        label="Player Name"
+                        defaultValue={props.username}
+                        helperText="Enter your name"
+                        variant="outlined"
+                        onChange={event => setNewUsername(event.target.value)}
+                        fullWidth
+                    />
+                    <TextField
+                        label="Score"
+                        defaultValue={score}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        variant="outlined"
+                    />
+                </Box>
+                <DialogActions>
+                    <Button onClick={replayGame} color="primary" autoFocus>
+                        {REPLAY}
+                    </Button>
+                    <Button onClick={submitPlayer} color="primary">
+                        {HOME}
+                    </Button>
+                </DialogActions>
+            </DialogContent>
         </Dialog>
     );
 };
