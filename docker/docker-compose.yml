@@ -29,3 +29,8 @@ services:
       - POSTGRES_USER = "postgres"
     ports:
       - '5432:5432'
+
+  mongo:
+    build: ./mongo
+    ports:
+      - '27017:27017'
