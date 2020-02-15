@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage/LandingPage';
 import theme from './core-utils/themes';
@@ -12,15 +12,22 @@ import GameScreen from './components/GameScreen/GameScreen'
 import BotScreen from './components/BotScreen/BotScreen';
 
 function App() {
+  let [username, setUsername] = useState(null)
+
+  const updateUsername = newUsername => {
+    setUsername(newUsername)
+  }
   return (
     <MuiThemeProvider theme={theme}>
       <div className="App">
         <Router>
           <Switch>
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/">
+              <LandingPage username={username} setUsername={updateUsername} />
+            </Route>
             <Route path="/play">
-                <GameScreen playerName="Eyepatch"/>
-              </Route>
+              <GameScreen username={username} />
+            </Route>
             <Route path="/bot" component={BotScreen} />
           </Switch>
         </Router>
