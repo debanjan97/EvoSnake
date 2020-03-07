@@ -8,7 +8,7 @@ services:
     ports:
       - '4201:3000'
     command: bash -c "cd /root/EvoSnake/evo-ui && npm install && npm start"
-  
+
   evo-server:
     build: ./evo-server
     restart: always
@@ -17,15 +17,17 @@ services:
     ports:
       - '50000:6000'
     environment:
-      - PYTHONPATH = "/root/EvoSnake/evo-server"
+      - PYTHONPATH=/root/EvoSnake/evo-server
     command: bash -c "python3 /root/EvoSnake/evo-server/server/evoserver.py"
-  
+    depends_on:
+      - postgres
+
   postgres:
     build: ./postgres
     volumes:
       - ${NFS_PATH}/evosnake:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD ="postgres"
-      - POSTGRES_USER = "postgres"
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
     ports:
       - '5432:5432'

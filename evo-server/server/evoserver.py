@@ -73,9 +73,7 @@ def get_previous_player():
         return Response(response="No player exist in database", status=203)
     return Response(response=json.dumps(previous_player.describe_player()), status=200)
 
-
-
-app.run(debug=True, host='0.0.0.0', port='6000')
 with app.app_context():
     db.create_all()
-db.session.commit()
+    
+app.run(debug=True, host='0.0.0.0', port='6000')

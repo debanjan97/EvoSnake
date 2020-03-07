@@ -6,4 +6,4 @@ WORKDIR /root/EvoSnake/evo-ui
 ENV PATH /root/EvoSnake/evo-ui/node_modules/.bin:$PATH
 
 RUN npm install --silent
-RUN npm install react-scripts@3.0.1 -g --silent
+RUN npm install react-scripts@3.4.0 -g --silent
