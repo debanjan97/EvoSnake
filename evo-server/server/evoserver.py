@@ -6,10 +6,12 @@ import json
 from sqlalchemy import desc
 from datetime import datetime
 from core.controllers.players import players_blueprint
+from core.controllers.snake import snake_blueprint
 
 app = Flask(__name__)
 
 app.register_blueprint(players_blueprint)
+app.register_blueprint(snake_blueprint)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -17,35 +19,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from core.players import *
 
 db.init_app(app)
-
-
-@app.route('/add/<object>', methods=['put'])
-def hello_world(object):
-    request_object = request.get_json(silent=True)
-    if object not in ["snake", "player"]:
-        return Response(response="Type not supported", status=400)
-
-    if object == "snake":
-        for key in ['player', 'score']:
-            if not request_object.get(key):
-                return Response(response=f"{key} is missing in request body", status=400)
-        new_snake = Snake(id=generate_uuid(), player=request_object['player'], score=request_object['score'])
-        db.session.add(new_snake)
-        db.session.commit()
-        return Response(response=json.dumps(new_snake), status=200)
-    else:
-        return Response(reponse="Invalid request", status=400)
-
-
-@app.route('/get/snake/<id>', methods=['get'])
-def get_snakes_by_snakes(id):
-    requested_snake = Snake.query.filter_by(id=id).first()
-    if requested_snake is None:
-        return Response(response="No such snake exist", status=404)
-    try:
-        return Response(response=json.dumps(requested_snake.describe_snake()), status=200)
-    except Exception as e:
-        return Response(response="Error in fetching snake details", status=400)
 
 
 with app.app_context():
