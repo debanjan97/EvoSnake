@@ -1,10 +1,5 @@
 from flask import Flask, request, Response
 from  core.configmap import DB_URL
-from flask_sqlalchemy import SQLAlchemy
-from core.utils import generate_uuid
-import json
-from sqlalchemy import desc
-from datetime import datetime
 from core.controllers.players import players_blueprint
 from core.controllers.snake import snake_blueprint
 

@@ -1,7 +1,12 @@
 import axios from "axios"
 
+const instance = axios.create({
+    baseURL: 'http://localhost:50000',
+});
+
+
 export const fetchData = (type, key) => {
-    axios.get(`http://localhost:50000/get/${type}/${key}`).then(response => {
+    instance.get(`/get/${type}/${key}`).then(response => {
         if(response.status != 200) {
             //failure
             console.error("Internal server error");
@@ -25,7 +30,7 @@ export const fetchMostRecentPlayer = () => {
     // if player is cached, no need to make a server call
     let cachedPlayer = localStorage.getItem('stored_player_ign')
     if(!cachedPlayer) {
-        return axios.get('http://localhost:50000/get_previous_player').then(response => {
+        return instance.get('/get_previous_player').then(response => {
             if(response.status != 200) {
                 //failure
                 console.log("Internal server error");
@@ -50,7 +55,7 @@ export const fetchMostRecentPlayer = () => {
 }
 
 export const savePlayer = username => {
-    return axios.put('http://localhost:50000/add/player', {
+    return instance.put('/add/player', {
         "username": username
     }).then(response => {
         if(response.status != 200) {
@@ -67,7 +72,7 @@ export const savePlayer = username => {
 }
 
 export const saveSnake = (player, score) => {
-    return axios.put('http://localhost:50000/add/snake', {
+    return instance.put('/add/snake', {
         'player': player,
         'score': score
     }).then(response => {
