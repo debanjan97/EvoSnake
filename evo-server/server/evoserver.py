@@ -2,8 +2,11 @@ from flask import Flask, request, Response
 from  core.configmap import DB_URL
 from core.controllers.players import players_blueprint
 from core.controllers.snake import snake_blueprint
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 app.register_blueprint(players_blueprint)
 app.register_blueprint(snake_blueprint)
