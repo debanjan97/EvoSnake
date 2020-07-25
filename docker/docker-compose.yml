@@ -3,6 +3,7 @@ version: '3'
 services:
   evo-ui:
     build: ./evo-ui
+    stdin_open: true
     volumes:
       - ${EVOSNAKE_HOME_LOCAL}/EvoSnake:/root/EvoSnake
     ports:
