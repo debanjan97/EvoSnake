@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import GameBoard from './GameBoard'
 import Grid from '@material-ui/core/Grid';
-import GameScoreView from './GameScoreView/GameScoreView'
-import SandPhoto from '../../assets/images/sand.jpg' 
+import GameScoreView from './GameScoreView/GameScoreView' 
 
 const useStyles = makeStyles({
     board: {
