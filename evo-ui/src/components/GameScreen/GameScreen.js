@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import GameBoard from './GameBoard'
 import Grid from '@material-ui/core/Grid';
-import GameScoreView from './GameScoreView/GameScoreView' 
+import GameScoreView from './GameScoreView/GameScoreView'
+import moment from "moment"
 
 const useStyles = makeStyles({
     board: {
@@ -25,6 +26,11 @@ function GameScreen(props) {
     const classes = useStyles()
     const [score, setScore] = useState(3)
     const [isClickedOutside, setIsClickedOutside] = useState(false)
+    const [moves, setMoves] = useState(0)
+    const [startTime, _] = useState(moment.now())
+    const [duration, setDuration] = useState(0)
+    let interval
+
     const handleScore = score => {
         setScore(score)
     }
@@ -34,6 +40,17 @@ function GameScreen(props) {
     const resetClick = () => {
         setIsClickedOutside(false)
     }
+    const updateNumberOfMoves = () => {
+      setMoves(moves+1)
+    }
+    const runTimer = () => {
+      let duration = moment().diff(startTime)
+      setDuration(duration)
+    }
+
+    useEffect(()=>{
+      interval = setInterval(runTimer, 1000)
+    }, [])
     return (
       <React.Fragment>
         <Grid
@@ -44,15 +61,19 @@ function GameScreen(props) {
           className={classes.board}
           onClick={handleClick}
         >
-          <GameScoreView type='snake'/>
+          <GameScoreView
+            type="snake"
+            score={score}
+            moves={moves}
+            duration={moment.utc(duration).format("mm:ss") + " sec"}
+          />
           <GameBoard
             setScore={handleScore}
             isClicked={isClickedOutside}
             resetClick={resetClick}
-            score={score}
-            username={props.username}
+            updateNumberOfMoves={updateNumberOfMoves}
           />
-          <GameScoreView type='player'/>
+          <GameScoreView type="player" ign={props.username} />
         </Grid>
       </React.Fragment>
     );

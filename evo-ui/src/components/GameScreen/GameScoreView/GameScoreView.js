@@ -56,7 +56,14 @@ function GameScreen(props) {
               </ListItemAvatar>
               <ListItemText
                 primary={<DisplayText type="primary" text={info.label} />}
-                secondary={<DisplayText type="secondary" text="Not Computed" />}
+                secondary={
+                  <DisplayText
+                    type="secondary"
+                    text={
+                      info.name in props ? props[info.name] : "Not Computed"
+                    }
+                  />
+                }
               />
             </ListItem>
           );

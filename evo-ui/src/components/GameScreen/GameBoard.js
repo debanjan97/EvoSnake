@@ -80,18 +80,22 @@ const GameBoard = (props) => {
       case 38:
         if (direction != 'DOWN')
           setDirection('UP');
+          props.updateNumberOfMoves()
         break;
       case 40:
         if (direction != 'UP')
           setDirection('DOWN');
+          props.updateNumberOfMoves()
         break;
       case 37:
         if (direction != 'RIGHT')
           setDirection('LEFT');
+          props.updateNumberOfMoves()
         break;
       case 39:
         if (direction != 'LEFT')
           setDirection('RIGHT');
+          props.updateNumberOfMoves()
         break;
       case 32:
         setIsPaused(!isPaused);
