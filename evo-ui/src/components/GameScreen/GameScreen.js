@@ -2,21 +2,25 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import GameBoard from './GameBoard'
-import { Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import GameScoreView from './GameScoreView/GameScoreView'
+import SandPhoto from '../../assets/images/sand.jpg' 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     board: {
         height: "100vh",
         width: "100vw",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: `#263238`,
         position: "relative",
+        flexGrow: 1,
+        padding: '0 100px'
     },
     scorecard: {
         border: "2px solid black",
         padding: "8px",
         boxSizing: "border-box"
     }
-}))
+})
 
 function GameScreen(props) {
     const classes = useStyles()
@@ -31,27 +35,28 @@ function GameScreen(props) {
     const resetClick = () => {
         setIsClickedOutside(false)
     }
-    return (<React.Fragment>
-        <Card className={classes.board} onClick={handleClick}>
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                style={{
-                    paddingTop: "120px"
-                }}
-            >
-                <Grid item xs={3} className={classes.scorecard} style={{ marginRight: "2px" }}>
-                    Player Name: {props.username}
-                </Grid>
-                <Grid item xs={3} className={classes.scorecard} style={{ marginLeft: "2px" }}>
-                    Score: {score}
-                </Grid>
-            </Grid>
-            <GameBoard setScore={handleScore} isClicked={isClickedOutside} resetClick={resetClick} score={score} username={props.username}/>
-        </Card>
-    </React.Fragment>)
+    return (
+      <React.Fragment>
+        <Grid
+          container
+          direction="rows"
+          justify="space-between"
+          alignItems="center"
+          className={classes.board}
+          onClick={handleClick}
+        >
+          <GameScoreView type='snake'/>
+          <GameBoard
+            setScore={handleScore}
+            isClicked={isClickedOutside}
+            resetClick={resetClick}
+            score={score}
+            username={props.username}
+          />
+          <GameScoreView type='player'/>
+        </Grid>
+      </React.Fragment>
+    );
 }
 
 export default GameScreen;

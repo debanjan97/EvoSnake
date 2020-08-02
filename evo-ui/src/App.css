@@ -10,8 +10,8 @@
   position: absolute;
   width: 2%;
   height: 2%;
-  background-color:green;
-  border: 1px solid goldenrod;
+  background-color: #cddc39;
+  border-radius: 50%;
   z-index: 2;
 }
 
@@ -19,7 +19,11 @@
   position: absolute;
   width: 2%;
   height: 2%;
-  background: red;
-  border: 1px solid #fff;
+  background: #e58d51;
+  border-radius: 50%;
   z-index: 1;
+}
+
+#evo-board:focus {
+  outline: none;
 }

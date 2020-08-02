@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
-import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Snake from "../GameElements/Snake";
 import Food from "../GameElements/Food";
 import PauseDialog from "../Dialogs/PauseDialog";
 import GameEndedDialog from "../Dialogs/GameEndedDialog";
-const useStyles = makeStyles(theme => ({
+import Grid from '@material-ui/core/Grid';
+
+const useStyles = makeStyles({
   canvas: {
-    height: "50vh",
-    width: "50vw",
-    backgroundColor: "#222222",
-    border: "5px dashed brown",
+    height: "800px",
+    width: "800px",
+    backgroundColor: "#37474F",
     position: "relative",
-    margin: "0 auto"
+    margin: "auto",
+    boxShadow: '5px 10px 18px #222'
+  },
+  gameboard: {
+    
   }
-}))
+})
 
 const getRandomCoordinates = () => {
   let min = 1;
@@ -138,7 +142,7 @@ const GameBoard = (props) => {
 
   const increaseSpeed = () => {
     if (speed > 10) {
-      setSpeed(speed - 2)
+      setSpeed(speed - 5)
     }
   }
 
@@ -160,7 +164,7 @@ const GameBoard = (props) => {
   }, [snakeBod, isPaused, props.isClicked, isEnded])
 
   return (
-    <CardContent>
+    <Grid item className={classes.gameboard}>
       <div className={classes.canvas} onKeyDown={onKeyDown} tabIndex={0} id="evo-board">
         <Snake snakeBod={snakeBod} />
         <Food food={food} />
@@ -177,7 +181,7 @@ const GameBoard = (props) => {
           username={props.username}
         />
       </div>
-    </CardContent>)
+    </Grid>)
 }
 
 export default GameBoard;
