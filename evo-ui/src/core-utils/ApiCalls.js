@@ -28,7 +28,7 @@ export const fetchData = (type, key) => {
 
 export const fetchMostRecentPlayer = () => {
     // if player is cached, no need to make a server call
-    let cachedPlayer = localStorage.getItem('stored_player_ign')
+    let cachedPlayer = localStorage.getItem('stored_player')
     if(!cachedPlayer) {
         return instance.get('/get_previous_player').then(response => {
             if(response.status != 200) {
@@ -87,3 +87,5 @@ export const saveSnake = (player, score) => {
         console.error("Error in reaching the servers, Stack Trace => ", e);
     })
 }
+
+// export const getPlayerHighScore

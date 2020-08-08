@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import GameBoard from './GameBoard'
 import Grid from '@material-ui/core/Grid';
 import GameScoreView from './GameScoreView/GameScoreView'
 import moment from "moment"
+import EvoContext from '../../core-utils/ContextAPI/context';
 
 const useStyles = makeStyles({
     board: {
@@ -38,6 +39,8 @@ function GameScreen(props) {
     const [timerState, setTimerState] = useState("running")
     const timerStateRef = useRef(timerState)
     timerStateRef.current = timerState
+
+    const context = useContext(EvoContext)
 
     const handleScore = score => {
         setScore(score)
@@ -85,8 +88,16 @@ function GameScreen(props) {
             resetClick={resetClick}
             updateNumberOfMoves={updateNumberOfMoves}
             stopTimer={stopTimer}
+            score={score}
+            ign={context.player.username}
           />
-          <GameScoreView type="player" ign={props.username} />
+          <GameScoreView
+            type="player"
+            ign={context.player.username}
+            player_avg_score="0"
+            player_highscore="0"
+            total_highscore="0"
+          />
         </Grid>
       </React.Fragment>
     );

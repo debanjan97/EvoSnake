@@ -183,7 +183,7 @@ const GameBoard = (props) => {
           replayGame={replayGame}
           goToHome={goToHome}
           score={props.score}
-          username={props.username}
+          username={props.ign}
         />
       </div>
     </Grid>)

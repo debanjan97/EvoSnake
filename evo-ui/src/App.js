@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import './App.css';
 import LandingPage from './components/LandingPage/LandingPage';
 import theme from './core-utils/themes';
@@ -10,28 +10,28 @@ import {
 } from 'react-router-dom'
 import GameScreen from './components/GameScreen/GameScreen'
 import BotScreen from './components/BotScreen/BotScreen';
+import EvoProvider from './core-utils/ContextAPI/provider';
+import EvoContext from './core-utils/ContextAPI/context';
 
 function App() {
-  let [username, setUsername] = useState(null)
-
-  const updateUsername = newUsername => {
-    setUsername(newUsername)
-  }
+  const context = useContext(EvoContext)
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <LandingPage username={username} setUsername={updateUsername} />
-            </Route>
-            <Route path="/play">
-              <GameScreen username={username} />
-            </Route>
-            <Route path="/bot" component={BotScreen} />
-          </Switch>
-        </Router>
-      </div>
+      <EvoProvider>
+        <div className="App">
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <LandingPage/>
+              </Route>
+              <Route path="/play">
+                <GameScreen />
+              </Route>
+              <Route path="/bot" component={BotScreen} />
+            </Switch>
+          </Router>
+        </div>
+      </EvoProvider>
     </MuiThemeProvider>
   );
 }

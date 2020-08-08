@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import snake from "../../assets/images/flat_snake.svg"
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grid, CircularProgress } from '@material-ui/core';
@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import {fetchMostRecentPlayer} from '../../core-utils/ApiCalls'
 import {WELCOME_MESSAGE} from '../Constants'
+import EvoContext from '../../core-utils/ContextAPI/context'
 
 const useStyles = makeStyles(theme => ({
     snake: {
@@ -26,27 +27,41 @@ const useStyles = makeStyles(theme => ({
         marginLeft: "8px"
     },
     buttons: {
-        border: "3px solid black",
-        background: "#5CC253",
+        border: `2px solid ${theme.palette.primary.dark}`,
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.text2
     },
     link: {
         textDecoration: "none"
+    },
+    landingPage: {
+        backgroundColor: theme.palette.primary.main
+    },
+    welcomeText: {
+        position: "absolute",
+        bottom: '300px',
+        fontSize: '24px',
+        fontWeight: '100',
+        color: theme.palette.primary.text1
+    },
+    progressCircle: {
+        color: theme.palette.primary.text2
     }
 }));
 
 function LandingPage(props) {
     const classes = useStyles();
-
-    let {username, setUsername} = props
+    const context = useContext(EvoContext)
+    let username = context.player.username
 
     useEffect(() => {
         fetchMostRecentPlayer().then(player => {
             setTimeout(()=>{
-                setUsername(player.username)
+                context.updatePlayer(player)
             }, 1000)
         })
     }, [username])
-    return (<div className="landing-page">
+    return (<div className={"landing-page "+classes.landingPage}>
         <Grid
             container
             direction="column"
@@ -54,13 +69,8 @@ function LandingPage(props) {
             alignItems="center"
         >
             <img src={snake} className={classes.snake}></img>
-            <div style={{
-                position: "absolute",
-                bottom: '300px',
-                fontSize: '24px',
-                fontWeight: '100'
-            }}>
-                {username && `${WELCOME_MESSAGE} ${username} !!` || <CircularProgress color="black"/>}
+            <div className={classes.welcomeText}>
+                {username && `${WELCOME_MESSAGE} ${username} !!` || <CircularProgress className={classes.progressCircle}/>}
             </div>
         </Grid>
         <Grid
