@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import GameBoard from './GameBoard'
@@ -29,7 +29,15 @@ function GameScreen(props) {
     const [moves, setMoves] = useState(0)
     const [startTime, _] = useState(moment.now())
     const [duration, setDuration] = useState(0)
-    let interval
+
+    /**
+     * Timer state can have 2 states
+     * running
+     * stooped
+     */
+    const [timerState, setTimerState] = useState("running")
+    const timerStateRef = useRef(timerState)
+    timerStateRef.current = timerState
 
     const handleScore = score => {
         setScore(score)
@@ -44,12 +52,16 @@ function GameScreen(props) {
       setMoves(moves+1)
     }
     const runTimer = () => {
-      let duration = moment().diff(startTime)
-      setDuration(duration)
+      if (timerStateRef.current == "running") {
+        let duration = moment().diff(startTime);
+        setDuration(duration);
+      }
     }
-
+    const stopTimer = () => {
+      setTimerState("stopped")
+    }
     useEffect(()=>{
-      interval = setInterval(runTimer, 1000)
+        setInterval(runTimer, 1000)
     }, [])
     return (
       <React.Fragment>
@@ -72,6 +84,7 @@ function GameScreen(props) {
             isClicked={isClickedOutside}
             resetClick={resetClick}
             updateNumberOfMoves={updateNumberOfMoves}
+            stopTimer={stopTimer}
           />
           <GameScoreView type="player" ign={props.username} />
         </Grid>

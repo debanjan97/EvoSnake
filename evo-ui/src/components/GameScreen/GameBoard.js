@@ -71,6 +71,7 @@ const GameBoard = (props) => {
   }
 
   const onGameOver = () => {
+    props.stopTimer();
     setIsEnded(true);
   }
 
