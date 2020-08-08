@@ -26,66 +26,103 @@ export const fetchData = (type, key) => {
     })
 }
 
-export const fetchMostRecentPlayer = () => {
+export const fetchMostRecentPlayer = async () => {
     // if player is cached, no need to make a server call
     let cachedPlayer = localStorage.getItem('stored_player')
     if(!cachedPlayer) {
-        return instance.get('/get_previous_player').then(response => {
-            if(response.status != 200) {
+        try {
+            const response = await instance.get('/get_previous_player');
+            if (response.status != 200) {
                 //failure
                 console.log("Internal server error");
-                return new Promise((resolve)=>{
-                    resolve({'username': 'player1'})
-                })
+                return new Promise((resolve) => {
+                    resolve({ 'username': 'player1' });
+                });
             }
             else {
                 //success
-                return response.data
+                return response.data;
             }
-        }).catch(e => {
+        }
+        catch (e) {
             console.error("Error in reaching the servers, Stack Trace => ", e);
-            return new Promise((resolve)=>{
-                resolve({'username': "player1"})
-            })
-        })
+            return new Promise((resolve) => {
+                resolve({ 'username': "player1" });
+            });
+        }
     }
     return new Promise((resolve)=>{
         resolve({'username': cachedPlayer})
     })
 }
 
-export const savePlayer = username => {
-    return instance.put('/add/player', {
-        "username": username
-    }).then(response => {
-        if(response.status != 200) {
+export const savePlayer = async username => {
+    try {
+        const response = await instance.put('/add/player', {
+            "username": username
+        });
+        if (response.status != 200) {
             console.log("Internal server error");
-            console.log("player not saved")
+            console.log("player not saved");
         }
         else {
             // cache the player
-            localStorage.setItem('stored_player_ign', username)
+            localStorage.setItem('stored_player_ign', username);
         }
-    }).catch(e => {
+    }
+    catch (e) {
         console.error("Error in reaching the servers, Stack Trace => ", e);
-    })
+    }
 }
 
-export const saveSnake = (player, score) => {
-    return instance.put('/add/snake', {
-        'player': player,
-        'score': score
-    }).then(response => {
-        if(response.status != 200) {
+export const saveSnake = async (player, score) => {
+    try {
+        const response = await instance.put('/add/snake', {
+            'player': player,
+            'score': score
+        });
+        if (response.status != 200) {
             console.log("Internal server error");
-            console.log("Snake not saved")
+            console.log("Snake not saved");
         }
         else {
-            console.log(response.data)
+            console.log(response.data);
         }
-    }).catch(e => {
+    }
+    catch (e) {
         console.error("Error in reaching the servers, Stack Trace => ", e);
-    })
+    }
 }
 
-// export const getPlayerHighScore
+export const getPlayerHighScore = async (playerId) => {
+    const response = await instance.get(`/${playerId}/highscore`);
+    if (response.status != 200) {
+        console.error("Cannot fetch highscores");
+        return new Promise(resolve => {
+            resolve("Could not fetch highscore");
+        });
+    }
+    return response.data;
+}
+
+export const getTotalHighScore = async () => {
+    const response = await instance.get('/total_highscore');
+    if (response.status != 200) {
+        console.error("Cannot fetch highscores");
+        return new Promise(resolve => {
+            resolve("Could not fetch highscore");
+        });
+    }
+    return response.data;
+}
+
+export const getPlayerAverageScore = async (playerId) => {
+    const response = await instance.get(`/${playerId}/average_score`);
+    if (response.status != 200) {
+        console.error("Cannot fetch highscores");
+        return new Promise(resolve => {
+            resolve("Could not fetch highscore");
+        });
+    }
+    return response.data;
+}

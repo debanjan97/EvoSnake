@@ -11,7 +11,7 @@ import {
 import {
     GAME_ENDED_TITLE,
     REPLAY,
-    HOME
+    SAVE
 } from '../Constants';
 import {savePlayer, saveSnake} from "../../core-utils/ApiCalls"
 
@@ -35,7 +35,7 @@ const GameEndedDialog = (props) => {
 
     const submitPlayer = () => {
         savePlayer(newUsername || username).then(()=>{
-            saveSnake(username, score).then(() => {
+            saveSnake(newUsername || username, score).then(() => {
                 goToHome()
             })
         })
@@ -68,7 +68,7 @@ const GameEndedDialog = (props) => {
                         {REPLAY}
                     </Button>
                     <Button onClick={submitPlayer} color="primary">
-                        {HOME}
+                        {SAVE}
                     </Button>
                 </DialogActions>
             </DialogContent>

@@ -6,6 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import GameScoreView from './GameScoreView/GameScoreView'
 import moment from "moment"
 import EvoContext from '../../core-utils/ContextAPI/context';
+import {
+  getPlayerHighScore,
+  getTotalHighScore,
+  getPlayerAverageScore,
+} from "../../core-utils/ApiCalls";
 
 const useStyles = makeStyles({
     board: {
@@ -38,6 +43,10 @@ function GameScreen(props) {
      */
     const [timerState, setTimerState] = useState("running")
     const timerStateRef = useRef(timerState)
+    const [playerHighScore, setPlayerHighScore] = useState(0)
+    const [totalHighScore, setTotalHighScore] = useState(0)
+    const [playerAvgHighScore, setPlayerAvgHighScore] = useState(0)
+
     timerStateRef.current = timerState
 
     const context = useContext(EvoContext)
@@ -64,7 +73,21 @@ function GameScreen(props) {
       setTimerState("stopped")
     }
     useEffect(()=>{
-        setInterval(runTimer, 1000)
+      setInterval(runTimer, 1000)
+        
+      // fetch player highscore
+      getPlayerHighScore(context.player.id).then(data => {
+        setPlayerHighScore(data)
+      })
+
+      getTotalHighScore().then(data => {
+        setTotalHighScore(data)
+      })
+      
+      getPlayerAverageScore(context.player.id).then(data => {
+        setPlayerAvgHighScore(data)
+      })
+      
     }, [])
     return (
       <React.Fragment>
@@ -94,9 +117,9 @@ function GameScreen(props) {
           <GameScoreView
             type="player"
             ign={context.player.username}
-            player_avg_score="0"
-            player_highscore="0"
-            total_highscore="0"
+            player_avg_score={playerAvgHighScore}
+            player_highscore={playerHighScore}
+            total_highscore={totalHighScore}
           />
         </Grid>
       </React.Fragment>

@@ -30,12 +30,3 @@ def get_snake_by_id(id):
         return hiss(message="Error in fetching snake details", status=400)
 
 
-@snake_blueprint.route('/<player_id>/highscore', methods=["get"])
-def get_player_highscore(player_id):
-    return 0
-
-
-@snake_blueprint.route('/total_highscore', methods=["get"])
-def get_total_highscore():
-    return 0
-
