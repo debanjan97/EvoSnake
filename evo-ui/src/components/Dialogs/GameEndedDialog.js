@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
     Dialog,
     Button,
@@ -14,6 +14,7 @@ import {
     SAVE
 } from '../Constants';
 import {savePlayer, saveSnake} from "../../core-utils/ApiCalls"
+import EvoContext from '../../core-utils/ContextAPI/context';
 
 const propTypes = {
 };
@@ -27,15 +28,18 @@ const GameEndedDialog = (props) => {
         isEnded,
         replayGame,
         goToHome,
-        score,
-        username
     } = props;
 
+    const context = useContext(EvoContext)
     const [newUsername, setNewUsername] = useState(null)
 
     const submitPlayer = () => {
-        savePlayer(newUsername || username).then(()=>{
-            saveSnake(newUsername || username, score).then(() => {
+        savePlayer(newUsername || context.player.username).then(()=>{
+            saveSnake(newUsername || context.player.username, {
+                'score': context.score,
+                'no_of_moves': context.moves,
+                'duration': context.duration
+            }).then(() => {
                 goToHome()
             })
         })
@@ -48,7 +52,7 @@ const GameEndedDialog = (props) => {
                 <Box display="flex" flexDirection="row">
                     <TextField
                         label="Player Name"
-                        defaultValue={props.username}
+                        defaultValue={context.player.username}
                         helperText="Enter your name"
                         variant="outlined"
                         onChange={event => setNewUsername(event.target.value)}
@@ -56,7 +60,7 @@ const GameEndedDialog = (props) => {
                     />
                     <TextField
                         label="Score"
-                        defaultValue={score}
+                        defaultValue={context.score}
                         InputProps={{
                             readOnly: true,
                         }}

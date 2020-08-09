@@ -30,11 +30,8 @@ const useStyles = makeStyles({
 
 function GameScreen(props) {
     const classes = useStyles()
-    const [score, setScore] = useState(3)
     const [isClickedOutside, setIsClickedOutside] = useState(false)
-    const [moves, setMoves] = useState(0)
     const [startTime, _] = useState(moment.now())
-    const [duration, setDuration] = useState(0)
 
     /**
      * Timer state can have 2 states
@@ -52,7 +49,7 @@ function GameScreen(props) {
     const context = useContext(EvoContext)
 
     const handleScore = score => {
-        setScore(score)
+        context.updateScore(score)
     }
     const handleClick = () => {
         setIsClickedOutside(true)
@@ -61,12 +58,12 @@ function GameScreen(props) {
         setIsClickedOutside(false)
     }
     const updateNumberOfMoves = () => {
-      setMoves(moves+1)
+      context.updateMoves(context.moves+1)
     }
     const runTimer = () => {
       if (timerStateRef.current == "running") {
         let duration = moment().diff(startTime);
-        setDuration(duration);
+        context.setDuration(duration);
       }
     }
     const stopTimer = () => {
@@ -101,9 +98,9 @@ function GameScreen(props) {
         >
           <GameScoreView
             type="snake"
-            score={score}
-            moves={moves}
-            duration={moment.utc(duration).format("mm:ss") + " sec"}
+            score={context.score}
+            moves={context.moves}
+            duration={moment.utc(context.duration).format("mm:ss") + " sec"}
           />
           <GameBoard
             setScore={handleScore}
@@ -111,7 +108,7 @@ function GameScreen(props) {
             resetClick={resetClick}
             updateNumberOfMoves={updateNumberOfMoves}
             stopTimer={stopTimer}
-            score={score}
+            score={context.score}
             ign={context.player.username}
           />
           <GameScoreView

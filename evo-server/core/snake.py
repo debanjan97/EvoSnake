@@ -14,8 +14,10 @@ class Snake(db.Model):
     player = db.Column(db.String(), ForeignKey('players.id'))
     score = db.Column(db.Integer())
     played_on = db.Column(db.TIMESTAMP)
+    duration = db.Column(db.Integer())
+    no_of_moves = db.Column(db.Integer())
 
-    def __init__(self, id, player, score, played_on=None):
+    def __init__(self, id, player, score, duration, no_of_moves, played_on=None):
         self.id = id
         player = Player.query.filter_by(username=player).first()
         if player is None:
@@ -23,6 +25,8 @@ class Snake(db.Model):
         self.player = player.id
         self.score = score
         self.played_on = played_on or datetime.now()
+        self.duration = duration
+        self.no_of_moves = no_of_moves
 
     def describe_snake(self):
         player = Player.query.filter_by(id=self.player).first()

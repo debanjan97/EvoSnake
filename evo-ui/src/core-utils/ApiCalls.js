@@ -75,11 +75,11 @@ export const savePlayer = async username => {
     }
 }
 
-export const saveSnake = async (player, score) => {
+export const saveSnake = async (player, payload) => {
     try {
         const response = await instance.put('/add/snake', {
             'player': player,
-            'score': score
+            ...payload
         });
         if (response.status != 200) {
             console.log("Internal server error");

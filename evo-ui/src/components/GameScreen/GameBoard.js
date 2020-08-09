@@ -182,8 +182,6 @@ const GameBoard = (props) => {
           isEnded={isEnded}
           replayGame={replayGame}
           goToHome={goToHome}
-          score={props.score}
-          username={props.ign}
         />
       </div>
     </Grid>)

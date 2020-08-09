@@ -19,7 +19,7 @@ services:
       - '50000:6000'
     environment:
       - PYTHONPATH=/root/EvoSnake/evo-server
-    command: bash -c "python3 /root/EvoSnake/evo-server/server/evoserver.py"
+    command: bash -c "cd /root/EvoSnake/evo-server &&  alembic upgrade head && python3 ./server/evoserver.py"
     depends_on:
       - postgres
 

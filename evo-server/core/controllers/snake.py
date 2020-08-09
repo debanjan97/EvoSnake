@@ -10,10 +10,11 @@ snake_blueprint = Blueprint('snake_blueprint', __name__)
 @snake_blueprint.route('/add/snake', methods=['put'])
 def add_snake():
     request_object = request.get_json(silent=True)
-    for key in ['player', 'score']:
+    for key in ['player', 'score', 'duration', 'no_of_moves']:
         if not request_object.get(key):
             return hiss(message=f"{key} is missing in request body", status=400)
-    new_snake = Snake(id=generate_uuid(), player=request_object['player'], score=request_object['score'])
+    new_snake = Snake(id=generate_uuid(), player=request_object['player'], score=request_object['score'],
+                      duration=request_object['duration'], no_of_moves=request_object['no_of_moves'])
     db.session.add(new_snake)
     db.session.commit()
     return hiss(message="Snake added successfully", status=200)
@@ -28,5 +29,3 @@ def get_snake_by_id(id):
         return hiss(message=json.dumps(requested_snake.describe_snake()), status=200)
     except Exception as e:
         return hiss(message="Error in fetching snake details", status=400)
-
-
